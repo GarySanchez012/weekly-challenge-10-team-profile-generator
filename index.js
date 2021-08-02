@@ -1,7 +1,6 @@
 const inquirer = require("inquirer");
 const fs = require("fs");
 
-const Employee = require("./lib/Employee");
 const Engineer = require("./lib/Engineer");
 const Intern = require("./lib/Intern");
 const Manager = require("./lib/Manager");
@@ -190,16 +189,13 @@ const list = [
     type: "list",
     name: "employeetype",
     message: "Would you like to add an(other) employee?",
-    choices: ["Manager", "Engineer", "Intern", "Exit"],
+    choices: ["Engineer", "Intern", "Exit"],
   },
 ];
 
 const generalPrompt = () => {
   inquirer.prompt(list).then((answers) => {
     switch (answers.employeetype) {
-      case "Manager":
-        managerPrompt();
-        break;
       case "Engineer":
         engineerPrompt();
         break;
@@ -210,20 +206,6 @@ const generalPrompt = () => {
         console.log(employeeRoster);
         break;
     }
-  });
-};
-
-const managerPrompt = () => {
-  inquirer.prompt(managerQuestions).then((managerAnswers) => {
-    employeeRoster.push(
-      new Manager(
-        managerAnswers.managername,
-        managerAnswers.managerid,
-        managerAnswers.manageremail,
-        managerAnswers.manageroffice
-      )
-    );
-    generalPrompt();
   });
 };
 
@@ -255,4 +237,38 @@ const internPrompt = () => {
   });
 };
 
-generalPrompt();
+const mainPrompt = () => {
+    inquirer.prompt(managerQuestions).then((managerAnswers) => {
+        employeeRoster.push(
+          new Manager(
+            managerAnswers.managername,
+            managerAnswers.managerid,
+            managerAnswers.manageremail,
+            managerAnswers.manageroffice
+          )
+        );
+        generalPrompt();
+      });
+};
+
+mainPrompt();
+
+// TODO: Create a function to write README file
+function writeToFile(fileName, data) {
+    fs.writeFile(fileName, data, function (err) {
+      if (err) {
+        return console.log(err);
+      } else {
+        console.log("Succesfully wrote" + fileName);
+      }
+    });
+  }
+  // TODO: Create a function to initialize app
+  function init() {
+    questions().then(function (answerObject) {
+      writeToFile("ReadMeGenerator.md", functions(answerObject));
+    });
+  }
+  
+  // Function call to initialize app
+  init();

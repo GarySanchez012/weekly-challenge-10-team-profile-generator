@@ -1,5 +1,10 @@
 const inquirer = require("inquirer");
 const fs = require("fs");
+const path = require("path");
+const render = require("./lib/renderHTML");
+
+const outputDir = path.resolve(__dirname, "dist");
+const outputPath = path.join(outputDir, "index.html");
 
 const Engineer = require("./lib/Engineer");
 const Intern = require("./lib/Intern");
@@ -204,6 +209,7 @@ const generalPrompt = () => {
         break;
       case "Exit":
         generateFile();
+        console.log(employeeRoster);
     }
   });
 };
@@ -237,9 +243,9 @@ const internPrompt = () => {
 };
 
 const generateFile = () => {
-  fs.writeFile("./dist/index.html", render(employeeRoster), (err) => {
+  fs.writeFile(outputPath, render(employeeRoster), (err) => {
     if (err) throw err;
-    console.log("File saved in distribution directory!")
+    console.log("File saved in distribution directory!");
   });
 };
 

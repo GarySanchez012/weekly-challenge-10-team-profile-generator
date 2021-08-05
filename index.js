@@ -203,8 +203,7 @@ const generalPrompt = () => {
         internPrompt();
         break;
       case "Exit":
-        console.log(employeeRoster);
-        break;
+        generateFile();
     }
   });
 };
@@ -237,38 +236,25 @@ const internPrompt = () => {
   });
 };
 
+const generateFile = () => {
+  fs.writeFile("./dist/index.html", render(employeeRoster), (err) => {
+    if (err) throw err;
+    console.log("File saved in distribution directory!")
+  });
+};
+
 const mainPrompt = () => {
-    inquirer.prompt(managerQuestions).then((managerAnswers) => {
-        employeeRoster.push(
-          new Manager(
-            managerAnswers.managername,
-            managerAnswers.managerid,
-            managerAnswers.manageremail,
-            managerAnswers.manageroffice
-          )
-        );
-        generalPrompt();
-      });
+  inquirer.prompt(managerQuestions).then((managerAnswers) => {
+    employeeRoster.push(
+      new Manager(
+        managerAnswers.managername,
+        managerAnswers.managerid,
+        managerAnswers.manageremail,
+        managerAnswers.manageroffice
+      )
+    );
+    generalPrompt();
+  });
 };
 
 mainPrompt();
-
-// TODO: Create a function to write README file
-function writeToFile(fileName, data) {
-    fs.writeFile(fileName, data, function (err) {
-      if (err) {
-        return console.log(err);
-      } else {
-        console.log("Succesfully wrote" + fileName);
-      }
-    });
-  }
-  // TODO: Create a function to initialize app
-  function init() {
-    questions().then(function (answerObject) {
-      writeToFile("ReadMeGenerator.md", functions(answerObject));
-    });
-  }
-  
-  // Function call to initialize app
-  init();

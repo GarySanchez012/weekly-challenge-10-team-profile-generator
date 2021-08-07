@@ -28,4 +28,4 @@
 https://github.com/GarySanchez012/weekly-challenge-10-team-profile-generator
 
 ## **Walkthrough**
-<!-- link to walkthrough video here -->
+https://drive.google.com/file/d/1q3lfJSlwRPvJ93HbuIMUVWZlGsPHNkHj/view
